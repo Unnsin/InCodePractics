@@ -1,49 +1,51 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Grid,Form, Button } from 'semantic-ui-react';
+import { Grid, Form, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { editUser } from '../redux/actions/index';
-import { bindActionCreators } from 'redux';
+
 
 class Edit extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            client: this.props.clients.find((item)=>{
-                return item.address.zipCode === this.props.match.params.zipCode;
-            })
-        };
-    }
-    
-  handelSubmit = (event) => {
-      event.preventDefault();
-      let user = {
-          general: {
-              firstName: event.target.name.value,
-              lastName: event.target.Lname.value,
-              avatar: event.target.Avatar.value,
-          },
-          job: {
-              company: event.target.Company.value,
-              title: event.target.Title.value
-          },
-          contact: {
-              email: event.target.email.value,
-              phone: event.target.phone.value
-          },
-          address: {
-              street: event.target.street.value,
-              city: event.target.city.value,
-              zipCode: event.target.zipCode.value,
-              country: event.target.country.value
-          }
-      };
-      this.props.Update(user);
+  constructor(props) {
+    super(props);
 
+    this.state = {
+      client: this.props.clients.find(item => item._id === this.props.match.params.id),
+    };
   }
+
+  handelSubmit = (event) => {
+    event.preventDefault();
+
+    const user = {
+      general: {
+        firstName: event.target.name.value,
+        lastName: event.target.Lname.value,
+        avatar: event.target.Avatar.value,
+      },
+      job: {
+        company: event.target.Company.value,
+        title: event.target.Title.value,
+      },
+      contact: {
+        email: event.target.email.value,
+        phone: event.target.phone.value,
+      },
+      address: {
+        street: event.target.street.value,
+        city: event.target.city.value,
+        zipCode: event.target.zipCode.value,
+        country: event.target.country.value,
+      },
+    };
+
+    this.props.Update(user);
+  }
+
   render() {
-      return (
+    return (
           <Grid>
               <Grid.Column width={6} />
               <Grid.Column width={3}>
@@ -97,35 +99,26 @@ class Edit extends Component {
                               <label htmlFor="country">Country: </label>
                               <input name="country" defaultValue={this.state.client.address.country} type="text" />
                           </Form.Field>
-                          <Button inverted color="green" type="submit" style={{ marginTop: '8%' }} >Edit Info </Button>
+                          <Button inverted color="green" type="submit" style={{ marginTop: '8%' }}>Edit Info </Button>
                           <Link to="/"><Button inverted color="red">Cansel</Button></Link>
                       </div>
                   </Form>
               </Grid.Column>
           </Grid>
-      );
+    );
   }
 }
 
 
 Edit.propTypes = {
-    Get: PropTypes.func,
-    match: PropTypes.object,
-    history: PropTypes.object,
-    Update: PropTypes.func,
-    clients: PropTypes.array
+  match: PropTypes.object,
+  Update: PropTypes.func,
+  clients: PropTypes.array,
 };
 
-const mapStateToProps = (state)=>{
-    return {
-        clients: state.clients 
-    };
-};
+const mapStateToProps = state => ({ clients: state.clients });
 
-const mapDispatchToProps = (dispatch)=>{
-    return {
-        Update: bindActionCreators(editUser,dispatch)
-    };
-};
+const mapDispatchToProps = dispatch => ({ Update: bindActionCreators(editUser, dispatch) });
 
-export default connect(mapStateToProps,mapDispatchToProps)(Edit); 
+
+export default connect(mapStateToProps, mapDispatchToProps)(Edit);
