@@ -7,20 +7,23 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import User from '../components/User';
 import { filterUser, setMessage, loadUsers, deleteUser } from '../redux/actions/index';
-import { GetSearchFilter } from '../selectors/index';
 
 const debounceTime = 300;
 
 class UserList extends Component {
   componentDidMount() {
-    const hasFirstClient = !!this.props.clients[0];
+    const hasFirstClient = !!this.props.clients[1];
     if (!hasFirstClient) {
       this.props.getClient();
     }
   }
 
   handelChange = (e) => {
-    this.props.Search(e.target.value);
+    if (e.target.value === '') {
+      this.props.getClient();
+    } else {
+      this.props.Search(e.target.value);
+    }
   }
 
   render() {
@@ -41,7 +44,7 @@ class UserList extends Component {
                   <Link to="/create">
                       <Button inverted color="brown">Создать Клиента</Button>
                   </Link>
-                  {this.props.clients ? this.props.clients.map(item => (<User key={item.address.zipCode} user={item} Delete={this.props.Delete} />)) : (<div />) }
+      {this.props.clients ? this.props.clients.map(item => (<User key={item._id} user={item} Delete={this.props.Delete} />)) : (<div />) }
               </Grid.Column>
           </Grid>
     );
@@ -57,7 +60,7 @@ UserList.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  clients: GetSearchFilter(state),
+  clients: state.clients,
   MessageFilter: state.filter.Message,
 });
 

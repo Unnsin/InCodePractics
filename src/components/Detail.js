@@ -1,69 +1,56 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import { Link } from 'react-router-dom';
 import { Flag, Grid, Card, Image, Button } from 'semantic-ui-react';
-import { connect } from 'react-redux';
 
 
 class Detail extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      client: this.props.clients.find(item => item._id === this.props.match.params.id),
-    };
-  }
-
-  componentDidMount() {
-  }
-
   render() {
     return (
             <Grid>
                 <Grid.Column width={6} />
                 <Grid.Column width={4}>
                     <Card style={{ marginTop: '2%' }}>
-                        <Image centered src={this.state.client.general.avatar} />
+                        <Image centered src={this.props.client.general.avatar} />
                         <Card.Content>
                             <Card.Header>
-                                { this.state.client.general.firstName }
-                                { this.state.client.general.lastName }
-                                <Flag name={this.state.client.address.country.toLowerCase()} />
+                                { this.props.client.general.firstName }
+                                { this.props.client.general.lastName }
+                                <Flag name={this.props.client.address.country.toLowerCase()} />
                             </Card.Header>
                             <Card.Description>
                                 <h3>
                                     Job
                                 </h3>
                                 <div>
-             Title: { this.state.client.job.title }
+             Title: { this.props.client.job.title }
                                 </div>
                                 <div>
-             Company: { this.state.client.job.company }
+             Company: { this.props.client.job.company }
                                 </div>
                                 <h3>
                                     Contact
                                 </h3>
                                 <div>
-             Email: { this.state.client.contact.email }
+             Email: { this.props.client.contact.email }
                                 </div>
                                 <div>
-             Phone: { this.state.client.contact.phone }
+             Phone: { this.props.client.contact.phone }
                                 </div>
                                 <h3>
                                     Address
                                 </h3>
                                 <div>
-             Street: { this.state.client.address.street }
+             Street: { this.props.client.address.street }
                                 </div>
                                 <div>
-             City: { this.state.client.address.city }
+             City: { this.props.client.address.city }
                                 </div>
                                 <div>
-             ZipCode: { this.state.client.address.zipCode }
+             ZipCode: { this.props.client.address.zipCode }
                                 </div>
                                 <div>
-             Country: { this.state.client.address.country }
+             Country: { this.props.client.address.country }
                                 </div>
                             </Card.Description>
                         </Card.Content>
@@ -79,12 +66,8 @@ class Detail extends Component {
   }
 }
 
-
 Detail.propTypes = {
-  match: PropTypes.object,
-  clients: PropTypes.array,
+  client: PropTypes.object,
 };
 
-
-const mapStateToProps = state => ({ clients: state.clients });
-export default connect(mapStateToProps)(Detail);
+export default Detail;

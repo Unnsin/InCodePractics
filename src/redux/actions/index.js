@@ -1,5 +1,4 @@
 import { push } from 'react-router-redux';
-
 import {
   ADD_USER,
   DELETE_USER,
@@ -10,10 +9,9 @@ import {
   CLIENT_IS_LOADING,
   CLIENT_LOADING_ERROR,
   CLIENT_LOADING_SUCSSESFUL,
+  GET_USER,
 } from './actionTypes';
 
-
-const serverDelay = 2000;
 const localhost = 'http://localhost:4200';
 
 export function setMessage() {
@@ -28,34 +26,37 @@ export function addUser(user) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(user),
-    });
-    setTimeout(() => {
-      dispatch({ type: ADD_USER, user });
-      dispatch(push('/'));
-      dispatch(setMessage());
-    }, serverDelay);
+    })
+      .then(() => dispatch({ type: ADD_USER, user }))
+      .then(dispatch(push('/')))
+      .then(dispatch(setMessage()));
   };
 }
 
 export function deleteUser(id) {
   return (dispatch) => {
     fetch(`${localhost}/delete/${id}`)
-      .then((respons) => { dispatch({ type: DELETE_USER, id }); });
+      .then(() => { dispatch({ type: DELETE_USER, id }); });
   };
 }
 
 export function editUser(user) {
   return (dispatch) => {
-    setTimeout(() => {
-      dispatch({ type: EDIT_USER, user });
-      dispatch(push('/'));
-    }, serverDelay);
+    fetch(`${localhost}/edit/${user._id}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(user),
+    })
+      .then(respons => respons.json())
+      .then(respons => dispatch({ type: EDIT_USER, respons }))
+      .then(dispatch(push('/')));
   };
 }
 export function filterUser(search) {
-  return {
-    type: FILTER_USER,
-    search,
+  return (dispatch) => {
+    fetch(`${localhost}/search/${search}`)
+      .then(response => response.json())
+      .then(response => dispatch({ type: FILTER_USER, users: response }));
   };
 }
 
@@ -75,6 +76,13 @@ export function endLoading() {
   return {
     type: CLIENT_LOADING_SUCSSESFUL,
     load: false,
+  };
+}
+export function getUser(id) {
+  return (dispatch) => {
+    fetch(`${localhost}/user/${id}`)
+      .then(respons => respons.json())
+      .then(item => dispatch({ type: GET_USER, user: item }));
   };
 }
 export function errorLoading() {

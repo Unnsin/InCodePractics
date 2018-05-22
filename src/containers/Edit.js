@@ -20,6 +20,7 @@ class Edit extends Component {
     event.preventDefault();
 
     const user = {
+      _id: this.state.client._id,
       general: {
         firstName: event.target.name.value,
         lastName: event.target.Lname.value,

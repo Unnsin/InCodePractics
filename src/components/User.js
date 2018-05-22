@@ -24,20 +24,20 @@ class User extends Component {
                   <Image
                     floated="right"
                     size="mini"
-                    src={this.state.client.general.avatar}
+                    src={this.props.user.general.avatar}
                     alt="Avatar"
                   />
                   <Card.Header>
-                      { this.state.client.general.firstName } { this.state.client.general.lastName }
+                      { this.props.user.general.firstName } { this.props.user.general.lastName }
                   </Card.Header>
                   <Card.Description>
-                      { this.state.client.job.title }
+                      { this.props.user.job.title }
                   </Card.Description>
-                  <Link to={`/detail/${this.state.client._id}`}>
+                  <Link to={`/detail/${this.props.user._id}`}>
                       <Button inverted color="green">Detail</Button>
                   </Link>
                   <Link
-                    to={`/edit/${this.state.client._id}`}
+                    to={`/edit/${this.props.user._id}`}
                     onClick={this.OnClickEdit}
                   >
                       <Button inverted color="blue">Edit</Button>
