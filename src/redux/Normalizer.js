@@ -1,6 +1,6 @@
 import { schema } from 'normalizr';
 
-const client = new schema.Entity('client');
+const client = new schema.Entity('client', {}, { idAttribute: '_id' });
 
-export const clientschema = new schema.Object(client);
-
+export const clientsSchema = new schema.Array(client);
+export const clientSchema = new schema.Entity('client', {}, { idAttribute: '_id' });

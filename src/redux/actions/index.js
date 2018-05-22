@@ -1,4 +1,6 @@
 import { push } from 'react-router-redux';
+import { normalize } from 'normalizr';
+import { clientsSchema, clientSchema } from '../Normalizer';
 import {
   ADD_USER,
   DELETE_USER,
@@ -20,6 +22,30 @@ export function setMessage() {
   };
 }
 
+export function signUp(user) {
+  return (dispatch) => {
+    fetch(`${localhost}/signup`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(user),
+    })
+      .then(respons => respons.json())
+      .then((respons) => { console.log(respons); return respons; })
+      .then(() => { dispatch(push('/')); });
+  };
+}
+
+export function signIn(user) {
+  return (dispatch) => {
+    fetch(`${localhost}/signup`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(user),
+    })
+      .then(() => { dispatch(push('/')); });
+  };
+}
+
 export function addUser(user) {
   return (dispatch) => {
     fetch(`${localhost}/create`, {
@@ -27,7 +53,9 @@ export function addUser(user) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(user),
     })
-      .then(() => dispatch({ type: ADD_USER, user }))
+      .then(res => res.json())
+      .then(res => normalize(res, clientSchema))
+      .then(res => dispatch({ type: ADD_USER, user: res }))
       .then(dispatch(push('/')))
       .then(dispatch(setMessage()));
   };
@@ -48,6 +76,7 @@ export function editUser(user) {
       body: JSON.stringify(user),
     })
       .then(respons => respons.json())
+      .then(respons => normalize(respons, clientSchema))
       .then(respons => dispatch({ type: EDIT_USER, respons }))
       .then(dispatch(push('/')));
   };
@@ -56,6 +85,7 @@ export function filterUser(search) {
   return (dispatch) => {
     fetch(`${localhost}/search/${search}`)
       .then(response => response.json())
+      .then(response => normalize(response, clientsSchema))
       .then(response => dispatch({ type: FILTER_USER, users: response }));
   };
 }
@@ -82,6 +112,7 @@ export function getUser(id) {
   return (dispatch) => {
     fetch(`${localhost}/user/${id}`)
       .then(respons => respons.json())
+      .then(respons => normalize(respons, clientSchema))
       .then(item => dispatch({ type: GET_USER, user: item }));
   };
 }
@@ -93,9 +124,9 @@ export function errorLoading() {
 }
 export function loadUsers() {
   return (dispatch) => {
-    dispatch(startLoading());
     fetch(`${localhost}/users`)
       .then(res => res.json())
+      .then(res => normalize(res, clientsSchema))
       .then(items => dispatch(getUsers(items)));
   };
 }

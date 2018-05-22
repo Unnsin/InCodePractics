@@ -12,7 +12,7 @@ const debounceTime = 300;
 
 class UserList extends Component {
   componentDidMount() {
-    const hasFirstClient = !!this.props.clients[1];
+    const hasFirstClient = !!this.props.ids[1];
     if (!hasFirstClient) {
       this.props.getClient();
     }
@@ -44,7 +44,7 @@ class UserList extends Component {
                   <Link to="/create">
                       <Button inverted color="brown">Создать Клиента</Button>
                   </Link>
-      {this.props.clients ? this.props.clients.map(item => (<User key={item._id} user={item} Delete={this.props.Delete} />)) : (<div />) }
+      { this.props.loading ? this.props.ids.map(item => (<User key={this.props.clients[item]._id} user={this.props.clients[item]} Delete={this.props.Delete} />)) : (<div />) }
               </Grid.Column>
           </Grid>
     );
@@ -52,16 +52,20 @@ class UserList extends Component {
 }
 
 UserList.propTypes = {
-  clients: PropTypes.array,
+  clients: PropTypes.object,
   Search: PropTypes.func,
   Delete: PropTypes.func,
   filter: PropTypes.string,
   getClient: PropTypes.func,
+  ids: PropTypes.array,
+  loading: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
-  clients: state.clients,
+  clients: state.clients.clients,
+  ids: state.clients.ids,
   MessageFilter: state.filter.Message,
+  loading: state.clients.isLoading,
 });
 
 const mapDispatchToProps = dispatch => ({

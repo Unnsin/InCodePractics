@@ -8,17 +8,15 @@ import { getUser } from '../redux/actions/index';
 
 class Info extends Component {
   componentDidMount() {
-    if (!this.props.clients[0]) {
+    if (!this.props.ids[0]) {
       this.props.getUser(this.props.match.params.id);
     }
   }
 
-  DisplayUser = id => this.props.clients.find(item => item._id === id);
-
   render() {
     return (
             <div>
-                { this.props.clients[0] ? <Detail client={this.DisplayUser(this.props.match.params.id)} /> : <div /> }
+                { this.props.ids[0] ? <Detail client={this.props.clients[this.props.match.params.id]} /> : <div /> }
             </div>
     );
   }
@@ -26,10 +24,11 @@ class Info extends Component {
 
 Info.propTypes = {
   getUser: PropTypes.func,
-  clients: PropTypes.array,
+  clients: PropTypes.object,
   match: PropTypes.object,
+  ids: PropTypes.array,
 };
-const mapStateToProps = state => ({ clients: state.clients });
+const mapStateToProps = state => ({ clients: state.clients.clients, ids: state.clients.ids });
 
 const mapDispatchToProps = dispatch => ({ getUser: bindActionCreators(getUser, dispatch) });
 

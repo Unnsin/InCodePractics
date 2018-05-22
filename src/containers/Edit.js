@@ -12,7 +12,7 @@ class Edit extends Component {
     super(props);
 
     this.state = {
-      client: this.props.clients.find(item => item._id === this.props.match.params.id),
+      client: this.props.clients[this.props.match.params.id],
     };
   }
 
@@ -50,8 +50,8 @@ class Edit extends Component {
           <Grid>
               <Grid.Column width={6} />
               <Grid.Column width={3}>
-                  <Form className="ui form" onSubmit={this.handelSubmit} style={{ marginTop: '5%' }}>
-                      <div className="main">
+                  <Form onSubmit={this.handelSubmit} style={{ marginTop: '5%' }}>
+                      <div>
                           <h3>General Info</h3>
                           <Form.Field>
                               <label htmlFor="name">Name: </label>
@@ -114,10 +114,10 @@ class Edit extends Component {
 Edit.propTypes = {
   match: PropTypes.object,
   Update: PropTypes.func,
-  clients: PropTypes.array,
+  clients: PropTypes.object,
 };
 
-const mapStateToProps = state => ({ clients: state.clients });
+const mapStateToProps = state => ({ clients: state.clients.clients });
 
 const mapDispatchToProps = dispatch => ({ Update: bindActionCreators(editUser, dispatch) });
 
