@@ -7,6 +7,7 @@ import CreateUser from './CreateUser';
 import Edit from './Edit';
 import SignUp from './SignUp';
 import SignIn from './SignIn';
+import Sockets from './Sockets';
 
 class App extends Component {
   OnClick = () => {
@@ -31,6 +32,7 @@ class App extends Component {
 ) : <Button inverted color="green" floated="right" onClick={this.OnClick}> Sign Out </Button>
                 }
                 <Divider clearing />
+                <Sockets />
                 <Route path="/" exact component={UserList} />
                 <Route path="/detail/:id" exact component={Info} />
                 <Route path="/create" exact component={CreateUser} />
