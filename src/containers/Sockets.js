@@ -1,19 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import { PropTypes } from 'prop-types';
+import { PropTypes } from 'prop-types';
+import { normalize } from 'normalizr';
 // import { bindActionCreators } from 'redux';
 import openSocket from 'socket.io-client';
+import { EDIT_USER, DELETE_USER, ADD_USER } from '../redux/actions/actionTypes';
+import { clientSchema } from '../redux/Normalizer';
 
-const socket = openSocket('http://localhost:8000');
+const socket = openSocket('http://localhost:8080');
 
 class Sockets extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      message: '',
-    };
-    socket.on('message', (payload) => {
-      this.setState({ message: payload });
+    socket.on('edit', (data) => {
+      data = normalize(data, clientSchema);
+      this.props.editUser(data);
+    });
+    socket.on('create', (data) => {
+      data = normalize(data, clientSchema);
+      this.props.createUser(data);
+    });
+    socket.on('delete', (data) => {
+      this.props.deleteUser(data);
     });
   }
 
@@ -21,18 +29,21 @@ class Sockets extends Component {
     socket.on('connection');
   }
 
-  Message = () => {
-    console.log('Click');
-    socket.emit('message', 'Hello');
-  }
-
   render() {
     return (
-        <div>
-                <button onClick={this.Message}> Socketc</button>
-                <div>{this.state.message}</div>
-        </div>);
+        <div />);
   }
 }
 
-export default connect(null, null)(Sockets);
+Sockets.propTypes = {
+  editUser: PropTypes.func,
+  deleteUser: PropTypes.func,
+  createUser: PropTypes.func,
+};
+
+const mapDispatchToProps = dispatch => ({
+  editUser: data => dispatch({ type: EDIT_USER, respons: data }),
+  deleteUser: data => dispatch({ type: DELETE_USER, id: data }),
+  createUser: data => dispatch({ type: ADD_USER, user: data }),
+});
+export default connect(null, mapDispatchToProps)(Sockets);

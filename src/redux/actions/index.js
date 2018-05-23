@@ -2,8 +2,6 @@ import { push } from 'react-router-redux';
 import { normalize } from 'normalizr';
 import { clientsSchema, clientSchema } from '../Normalizer';
 import {
-  ADD_USER,
-  DELETE_USER,
   EDIT_USER,
   FILTER_USER,
   MESSAGE_CLICK,
@@ -72,7 +70,6 @@ export function addUser(user) {
       })
       .then(res => res.json())
       .then(res => normalize(res, clientSchema))
-      .then(res => dispatch({ type: ADD_USER, user: res }))
       .then(dispatch(push('/')))
       .then(dispatch(setMessage()))
       .catch(() => { alert('У вас недостаточно прав'); });
@@ -80,7 +77,7 @@ export function addUser(user) {
 }
 
 export function deleteUser(id) {
-  return (dispatch) => {
+  return () => {
     fetch(`${localhost}/delete/${id}`, {
       method: 'GET',
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
@@ -91,7 +88,6 @@ export function deleteUser(id) {
         }
         return res;
       })
-      .then(() => { dispatch({ type: DELETE_USER, id }); })
       .catch(() => { alert('У вас недостаточно прав'); });
   };
 }

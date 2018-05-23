@@ -9,7 +9,6 @@ const initialState = {
 export function reducer(state = initialState, actions) {
   switch (actions.type) {
     case ADD_USER: {
-      console.log(actions);
       return {
         ...state,
         clients: {
@@ -49,7 +48,6 @@ export function reducer(state = initialState, actions) {
       };
     }
     case GET_USER: {
-      console.log(actions);
       return {
         ...state,
         clients: {
