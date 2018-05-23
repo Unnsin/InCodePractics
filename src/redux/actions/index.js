@@ -30,19 +30,27 @@ export function signUp(user) {
       body: JSON.stringify(user),
     })
       .then(respons => respons.json())
-      .then((respons) => { console.log(respons); return respons; })
       .then(() => { dispatch(push('/')); });
   };
 }
 
 export function signIn(user) {
   return (dispatch) => {
-    fetch(`${localhost}/signup`, {
+    fetch(`${localhost}/signin`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(user),
     })
-      .then(() => { dispatch(push('/')); });
+      .then((res) => {
+        if (res.status === 200) {
+          return res;
+        }
+        throw res.status;
+      })
+      .then(respons => respons.json())
+      .then((respons) => { localStorage.setItem('token', respons.token); return respons; })
+      .then(() => { dispatch(push('/')); })
+      .catch(err => console.log(err));
   };
 }
 
@@ -50,21 +58,41 @@ export function addUser(user) {
   return (dispatch) => {
     fetch(`${localhost}/create`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
       body: JSON.stringify(user),
     })
+      .then((res) => {
+        if (res.status !== 200) {
+          throw res.status;
+        }
+        return res;
+      })
       .then(res => res.json())
       .then(res => normalize(res, clientSchema))
       .then(res => dispatch({ type: ADD_USER, user: res }))
       .then(dispatch(push('/')))
-      .then(dispatch(setMessage()));
+      .then(dispatch(setMessage()))
+      .catch(() => { alert('У вас недостаточно прав'); });
   };
 }
 
 export function deleteUser(id) {
   return (dispatch) => {
-    fetch(`${localhost}/delete/${id}`)
-      .then(() => { dispatch({ type: DELETE_USER, id }); });
+    fetch(`${localhost}/delete/${id}`, {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    })
+      .then((res) => {
+        if (res.status !== 200) {
+          throw res.status;
+        }
+        return res;
+      })
+      .then(() => { dispatch({ type: DELETE_USER, id }); })
+      .catch(() => { alert('У вас недостаточно прав'); });
   };
 }
 
@@ -72,13 +100,23 @@ export function editUser(user) {
   return (dispatch) => {
     fetch(`${localhost}/edit/${user._id}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
       body: JSON.stringify(user),
     })
+      .then((res) => {
+        if (res.status !== 200) {
+          throw res.status;
+        }
+        return res;
+      })
       .then(respons => respons.json())
       .then(respons => normalize(respons, clientSchema))
       .then(respons => dispatch({ type: EDIT_USER, respons }))
-      .then(dispatch(push('/')));
+      .then(dispatch(push('/')))
+      .catch(() => { alert('У вас недостаточно прав'); });
   };
 }
 export function filterUser(search) {

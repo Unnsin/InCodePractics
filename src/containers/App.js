@@ -9,16 +9,27 @@ import SignUp from './SignUp';
 import SignIn from './SignIn';
 
 class App extends Component {
+  OnClick = () => {
+    localStorage.removeItem('token');
+    this.forceUpdate();
+  }
+
   render() {
     return (
             <div>
               <Segment>
-                <Link to="/signup">
-                  <Button floated="right" inverted color="green">Sign Up</Button>
-                </Link>
-                <Link to="/signin">
-                  <Button floated="right" inverted color="blue">Sign In</Button>
-                </Link>
+                { !localStorage.getItem('token') ?
+                (
+<div>
+                  <Link to="/signup">
+                     <Button floated="right" inverted color="green">Sign Up</Button>
+                  </Link>
+                  <Link to="/signin">
+                    <Button floated="right" inverted color="blue">Sign In</Button>
+                  </Link>
+</div>
+) : <Button inverted color="green" floated="right" onClick={this.OnClick}> Sign Out </Button>
+                }
                 <Divider clearing />
                 <Route path="/" exact component={UserList} />
                 <Route path="/detail/:id" exact component={Info} />
