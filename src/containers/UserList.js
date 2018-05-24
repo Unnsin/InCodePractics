@@ -6,7 +6,7 @@ import { DebounceInput } from 'react-debounce-input';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import User from '../components/User';
-import { filterUser, setMessage, loadUsers, deleteUser } from '../redux/actions/index';
+import { filterUser, loadUsers, deleteUser } from '../redux/actions/index';
 
 const debounceTime = 300;
 
@@ -29,8 +29,6 @@ class UserList extends Component {
   render() {
     return (
           <Grid>
-              <Grid.Column width={6} />
-              <Grid.Column width={4} style={{ paddingTop: '2%' }}>
                   <Input>
                       <DebounceInput
                         minLength={2}
@@ -45,7 +43,6 @@ class UserList extends Component {
                       <Button inverted color="brown">Создать Клиента</Button>
                   </Link>
       { this.props.loading ? this.props.ids.map(item => (<User key={this.props.clients[item]._id} user={this.props.clients[item]} Delete={this.props.Delete} />)) : (<div />) }
-              </Grid.Column>
           </Grid>
     );
   }
@@ -70,7 +67,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   Search: bindActionCreators(filterUser, dispatch),
-  MessageClick: bindActionCreators(setMessage, dispatch),
   getClient: bindActionCreators(loadUsers, dispatch),
   Delete: bindActionCreators(deleteUser, dispatch),
 });

@@ -7,7 +7,7 @@ import openSocket from 'socket.io-client';
 import { EDIT_USER, DELETE_USER, ADD_USER } from '../redux/actions/actionTypes';
 import { clientSchema } from '../redux/Normalizer';
 
-const socket = openSocket('http://localhost:8080');
+const socket = openSocket(process.env.REACT_APP_SOCKET_SERVER);
 
 class Sockets extends Component {
   constructor(props) {

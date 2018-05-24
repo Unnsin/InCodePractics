@@ -4,7 +4,7 @@ import { clientsSchema, clientSchema } from '../Normalizer';
 import {
   EDIT_USER,
   FILTER_USER,
-  MESSAGE_CLICK,
+  AVATAR,
   GET_USERS,
   CLIENT_IS_LOADING,
   CLIENT_LOADING_ERROR,
@@ -12,13 +12,7 @@ import {
   GET_USER,
 } from './actionTypes';
 
-const localhost = 'http://localhost:4200';
-
-export function setMessage() {
-  return {
-    type: MESSAGE_CLICK,
-  };
-}
+const localhost = process.env.REACT_APP_LOCALHOST_SERVER;
 
 export function signUp(user) {
   return (dispatch) => {
@@ -46,7 +40,8 @@ export function signIn(user) {
         throw res.status;
       })
       .then(respons => respons.json())
-      .then((respons) => { localStorage.setItem('token', respons.token); return respons; })
+      .then((respons) => { localStorage.setItem('token', respons.token); localStorage.setItem('email', respons.Email); return respons; })
+      .then(respons => dispatch({ type: AVATAR, url: respons.avatar }))
       .then(() => { dispatch(push('/')); })
       .catch(err => console.log(err));
   };
@@ -71,7 +66,6 @@ export function addUser(user) {
       .then(res => res.json())
       .then(res => normalize(res, clientSchema))
       .then(dispatch(push('/')))
-      .then(dispatch(setMessage()))
       .catch(() => { alert('У вас недостаточно прав'); });
   };
 }

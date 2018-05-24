@@ -48,8 +48,6 @@ class Edit extends Component {
   render() {
     return (
           <Grid>
-              <Grid.Column width={6} />
-              <Grid.Column width={3}>
                   <Form onSubmit={this.handelSubmit} style={{ marginTop: '5%' }}>
                       <div>
                           <h3>General Info</h3>
@@ -94,7 +92,7 @@ class Edit extends Component {
                           </Form.Field>
                           <Form.Field>
                               <label htmlFor="zipCode">ZipCode: </label>
-                              <input name="zipCode" defaultValue={this.state.client.address.zipCode} disabled type="text" required />
+                              <input name="zipCode" defaultValue={this.state.client.address.zipCode} type="text" required />
                           </Form.Field>
                           <Form.Field>
                               <label htmlFor="country">Country: </label>
@@ -104,7 +102,6 @@ class Edit extends Component {
                           <Link to="/"><Button inverted color="red">Cansel</Button></Link>
                       </div>
                   </Form>
-              </Grid.Column>
           </Grid>
     );
   }

@@ -39,8 +39,6 @@ class CreateUser extends Component {
   render() {
     return (
           <Grid>
-              <Grid.Column width={6} />
-              <Grid.Column width={3}>
                   <Form className="ui form" onSubmit={this.handelSubmit} style={{ marginTop: '5%' }}>
                       <h3>General Info</h3>
                       <Form.Field>
@@ -93,7 +91,6 @@ class CreateUser extends Component {
                       <Button inverted color="green" type="submit" style={{ marginTop: '8%' }}> Create User </Button>
                       <Link to="/"><Button inverted color="red">Cansel</Button></Link>
                   </Form>
-              </Grid.Column>
           </Grid>
     );
   }

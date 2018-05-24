@@ -1,16 +1,16 @@
-import { MESSAGE_CLICK } from '../actions/actionTypes';
+import { AVATAR } from '../actions/actionTypes';
 
 
 const initialState = {
-  Message: false,
+  avatar: '',
 };
 
 export function filterReducer(state = initialState, actions) {
   switch (actions.type) {
-    case MESSAGE_CLICK: {
+    case AVATAR: {
       return {
         ...state,
-        Message: true,
+        Message: actions.url,
       };
     }
     default: {

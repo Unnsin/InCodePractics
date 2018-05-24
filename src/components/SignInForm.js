@@ -18,8 +18,6 @@ class SignInForm extends Component {
   render() {
     return (
         <Grid>
-            <Grid.Column width={6} />
-            <Grid.Column width={4}>
                 <Form onSubmit={this.OnSubmit}>
                     <Form.Field>
                         <label htmlFor="email">Email: </label>
@@ -31,7 +29,6 @@ class SignInForm extends Component {
                     </Form.Field>
                         <Button inverted color="green">Sign In</Button>
                 </Form>
-            </Grid.Column>
         </Grid>
     );
   }

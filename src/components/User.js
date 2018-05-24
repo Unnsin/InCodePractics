@@ -34,15 +34,15 @@ class User extends Component {
                       { this.props.user.job.title }
                   </Card.Description>
                   <Link to={`/detail/${this.props.user._id}`}>
-                      <Button inverted color="green">Detail</Button>
+                      <Button floated="left" inverted color="green">Detail</Button>
                   </Link>
                   <Link
                     to={`/edit/${this.props.user._id}`}
                     onClick={this.OnClickEdit}
                   >
-                      <Button inverted color="blue">Edit</Button>
+                      <Button floated="left" inverted color="blue">Edit</Button>
                   </Link>
-                  <Button inverted color="red" onClick={this.DelUser}>Delete</Button>
+                  <Button floated="left" inverted color="red" onClick={this.DelUser}>Delete</Button>
               </div>
           </Card>
     );

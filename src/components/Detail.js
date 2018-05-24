@@ -8,8 +8,6 @@ class Detail extends Component {
   render() {
     return (
             <Grid>
-                <Grid.Column width={6} />
-                <Grid.Column width={4}>
                     <Card style={{ marginTop: '2%' }}>
                         <Image centered src={this.props.client.general.avatar} />
                         <Card.Content>
@@ -60,7 +58,6 @@ class Detail extends Component {
                             </Button>
                         </Link>
                     </Card>
-                </Grid.Column>
             </Grid>
     );
   }
