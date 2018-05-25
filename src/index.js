@@ -8,7 +8,6 @@ import registerServiceWorker from './registerServiceWorker';
 import { Store, history } from './redux/Store';
 
 dotenv.config();
-
 ReactDOM.render(
     <Provider store={Store}>
         <ConnectedRouter history={history}>

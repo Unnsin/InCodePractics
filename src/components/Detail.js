@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Flag, Grid, Card, Image, Button } from 'semantic-ui-react';
 
+const cardMargin = '2%';
 
 class Detail extends Component {
   render() {
     return (
             <Grid>
-                    <Card style={{ marginTop: '2%' }}>
+                    <Card style={{ marginTop: cardMargin }}>
                         <Image centered src={this.props.client.general.avatar} />
                         <Card.Content>
                             <Card.Header>

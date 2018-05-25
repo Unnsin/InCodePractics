@@ -10,5 +10,4 @@ export const history = createHistory();
 
 const middleware = routerMiddleware(history);
 
-
 export const Store = createStore(reducer, composeWithDevTools(applyMiddleware(middleware, thunk)));

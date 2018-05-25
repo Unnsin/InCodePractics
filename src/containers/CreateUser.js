@@ -6,6 +6,8 @@ import { Grid, Form, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { addUser } from '../redux/actions/index';
 
+const FormMargin = '5%';
+const ButtonPadding = '8%';
 
 class CreateUser extends Component {
   handelSubmit = (event) => {
@@ -39,7 +41,7 @@ class CreateUser extends Component {
   render() {
     return (
           <Grid>
-                  <Form className="ui form" onSubmit={this.handelSubmit} style={{ marginTop: '5%' }}>
+                  <Form onSubmit={this.handelSubmit} style={{ marginTop: FormMargin }}>
                       <h3>General Info</h3>
                       <Form.Field>
                           <label htmlFor="name">Name: </label>
@@ -88,7 +90,7 @@ class CreateUser extends Component {
                           <label htmlFor="country">Country: </label>
                           <input name="country" type="text" />
                       </Form.Field>
-                      <Button inverted color="green" type="submit" style={{ marginTop: '8%' }}> Create User </Button>
+                      <Button inverted color="green" type="submit" style={{ marginTop: ButtonPadding }}> Create User </Button>
                       <Link to="/"><Button inverted color="red">Cansel</Button></Link>
                   </Form>
           </Grid>

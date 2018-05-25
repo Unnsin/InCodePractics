@@ -10,6 +10,7 @@ import {
   CLIENT_LOADING_ERROR,
   CLIENT_LOADING_SUCSSESFUL,
   GET_USER,
+  GET_CLIENTS,
 } from './actionTypes';
 
 const localhost = process.env.REACT_APP_LOCALHOST_SERVER;
@@ -40,7 +41,11 @@ export function signIn(user) {
         throw res.status;
       })
       .then(respons => respons.json())
-      .then((respons) => { localStorage.setItem('token', respons.token); localStorage.setItem('email', respons.Email); return respons; })
+      .then((respons) => {
+        localStorage.setItem('token', respons.token);
+        localStorage.setItem('email', respons.Email);
+        return respons;
+      })
       .then(respons => dispatch({ type: AVATAR, url: respons.avatar }))
       .then(() => { dispatch(push('/')); })
       .catch(err => console.log(err));
@@ -150,6 +155,14 @@ export function errorLoading() {
     load: true,
   };
 }
+export function getClient() {
+  return (dispatch) => {
+    fetch(`${localhost}/clients`)
+      .then(res => res.json())
+      .then((res) => { dispatch({ type: GET_CLIENTS, users: res }); });
+  };
+}
+
 export function loadUsers() {
   return (dispatch) => {
     fetch(`${localhost}/users`)

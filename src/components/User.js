@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Button, Card, Image } from 'semantic-ui-react';
 
+const CardPading = '2%';
+const ButtonMargin = '5%';
+
 
 class User extends Component {
   constructor(props) {
@@ -19,7 +22,7 @@ class User extends Component {
 
   render() {
     return (
-          <Card style={{ padding: '2%' }} onClick={this.OnClick}>
+          <Card style={{ padding: CardPading }} onClick={this.OnClick}>
               <div>
                   <Image
                     floated="right"
@@ -30,7 +33,7 @@ class User extends Component {
                   <Card.Header>
                       { this.props.user.general.firstName } { this.props.user.general.lastName }
                   </Card.Header>
-                  <Card.Description>
+                  <Card.Description style={{ marginBottom: ButtonMargin }}>
                       { this.props.user.job.title }
                   </Card.Description>
                   <Link to={`/detail/${this.props.user._id}`}>

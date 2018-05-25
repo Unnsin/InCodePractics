@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
-import { Segment, Button, Divider, Dropdown, Grid, Image } from 'semantic-ui-react';
+import { Route, Link, withRouter } from 'react-router-dom';
+import { Segment, Button, Divider, Dropdown, Grid, Header } from 'semantic-ui-react';
 import UserList from './UserList';
 import Info from './Info';
 import CreateUser from './CreateUser';
@@ -9,23 +9,15 @@ import SignUp from './SignUp';
 import SignIn from './SignIn';
 import Sockets from './Sockets';
 import StatusBar from '../components/StatusBar';
+import Search from '../components/Search';
 
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.triger = (
-      <span>
-        <Image avatar />
-        {localStorage.getItem('email')}
-      </span>
-    );
-  }
 
   OnClick = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('email');
+    localStorage.removeItem('avatar');
     this.forceUpdate();
   }
 
@@ -33,6 +25,7 @@ class App extends Component {
     return (
             <div>
               <Segment>
+                <Header as="h4">
                 { !localStorage.getItem('token') ?
                 (
 <div>
@@ -44,12 +37,14 @@ class App extends Component {
                   </Link>
 </div>
 ) : (
-<Dropdown trigger={this.triger} item simple direction="left">
+<Dropdown text={localStorage.getItem('email')} item simple style={{ float: 'right' }}>
   <Dropdown.Menu>
     <Dropdown.Item onClick={this.OnClick}>Sign Out</Dropdown.Item>
   </Dropdown.Menu>
 </Dropdown>)
                 }
+                <Search />
+                </Header>
                 <Divider clearing />
                 <Grid>
                   <Grid.Column width={6}>
@@ -71,4 +66,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
