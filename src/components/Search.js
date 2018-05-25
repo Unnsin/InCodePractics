@@ -24,7 +24,7 @@ class Search extends Component {
   render() {
     return (
 <div>
-                <Input>
+                <Input focus>
                 <DebounceInput
                   minLength={2}
                   debounceTimeout={debounceTime}

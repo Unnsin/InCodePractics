@@ -23,7 +23,7 @@ class User extends Component {
   render() {
     return (
           <Card style={{ padding: CardPading }} onClick={this.OnClick}>
-              <div>
+              <Card.Content>
                   <Image
                     floated="right"
                     size="mini"
@@ -46,7 +46,7 @@ class User extends Component {
                       <Button floated="left" inverted color="blue">Edit</Button>
                   </Link>
                   <Button floated="left" inverted color="red" onClick={this.DelUser}>Delete</Button>
-              </div>
+              </Card.Content>
           </Card>
     );
   }

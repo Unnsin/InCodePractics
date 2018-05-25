@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
+import { Card } from 'semantic-ui-react';
+
+const paddingBar = '5%';
 
 class StatusBar extends Component {
   componentDidMount() {
@@ -8,9 +11,12 @@ class StatusBar extends Component {
 
   render() {
     return (
-<div>
+<Card raised style={{ padding: paddingBar }}>
+  <Card.Content>
+      <Card.Header> User Online: </Card.Header>
       {this.props.users[0] ? this.props.users.map(item => <div fluid key={item._id}>{item.Email}</div>) : <div>.....</div>}
-</div>);
+  </Card.Content>
+</Card>);
   }
 }
 
