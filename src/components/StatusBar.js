@@ -9,7 +9,7 @@ class StatusBar extends Component {
   render() {
     return (
 <div>
-      {this.props.users[0] ? this.props.users.map(item=>{return <div key={item._id}>{item.Email}</div>}) : <div>.....</div>}
+      {this.props.users[0] ? this.props.users.map(item => <div fluid key={item._id}>{item.Email}</div>) : <div>.....</div>}
 </div>);
   }
 }
